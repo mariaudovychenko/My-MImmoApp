@@ -1,4 +1,4 @@
-<form (ngSubmit)="addImmobilien()" #immobilienForm="ngForm" class="max-w-xl mx-auto mt-10 p-4 space-y-4">
+<form (ngSubmit)="addImmobilien()" #immobilienForm="ngForm" class="max-w-xl mx-auto mt-16 p-4 space-y-8">
   <!-- Beschreibung: Pflichtfeld -->
   <div>
     <input
@@ -6,7 +6,7 @@
       name="description"
       required
       placeholder="Beschreibung"
-      class="border p-2 w-full"
+      class="border p-2 w-full rounded-md"
     />
     <div *ngIf="immobilienForm.submitted && !immobilien.description" class="text-red-600 text-sm mt-1">
       Beschreibung ist erforderlich.
@@ -21,7 +21,7 @@
       [(ngModel)]="immobilien.address"
       required
       placeholder="Adresse"
-      class="border p-2 w-full"
+      class="border p-2 w-full rounded-md"
     />
     <div *ngIf="immobilienForm.submitted && !immobilien.address" class="text-red-600 text-sm mt-1">
       Adresse ist erforderlich.
