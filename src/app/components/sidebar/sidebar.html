@@ -1,0 +1,32 @@
+<div class="h-screen bg-gray-800 text-white flex flex-col transition-all duration-300"
+     [class.w-64]="isExpanded()"
+     [class.w-20]="!isExpanded()">
+
+  <div class="flex items-center justify-between h-20 px-4 border-b border-gray-700">
+    <h1 *ngIf="isExpanded()" class="text-2xl font-bold">My App</h1>
+    <button (click)="toggleSidebar()" class="text-gray-400 hover:text-white">
+      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+        <path *ngIf="isExpanded()" fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+        <path *ngIf="!isExpanded()" fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+      </svg>
+    </button>
+  </div>
+
+  <nav class="flex-1 p-2 space-y-1">
+    <a *ngFor="let item of navItems; let i = index"
+       (click)="select(i)"
+       [routerLink]="item.route"
+     routerLinkActive="bg-gray-700"
+       [class.bg-gray-700]="selected() === i"
+       class="flex items-center gap-2 px-4 py-2 rounded hover:bg-gray-700 cursor-pointer transition-all duration-200">
+      <span class="text-lg">{{ item.icon }}</span>
+      <span *ngIf="isExpanded()">{{ item.label }}</span>
+    </a>
+  </nav>
+
+  <div class="p-4 border-t border-gray-700">
+    <button class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded">
+      Logout
+    </button>
+  </div>
+</div>

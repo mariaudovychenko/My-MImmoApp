@@ -1,0 +1,35 @@
+<form (ngSubmit)="addImmobilien()" #immobilienForm="ngForm" class="max-w-xl mx-auto mt-10 p-4 space-y-4">
+  <!-- Beschreibung: Pflichtfeld -->
+  <div>
+    <input
+      [(ngModel)]="immobilien.description"
+      name="description"
+      required
+      placeholder="Beschreibung"
+      class="border p-2 w-full"
+    />
+    <div *ngIf="immobilienForm.submitted && !immobilien.description" class="text-red-600 text-sm mt-1">
+      Beschreibung ist erforderlich.
+    </div>
+  </div>
+
+  <!-- Adresse: Pflichtfeld -->
+  <div>
+    <input
+      id="autocomplete"
+      name="address"
+      [(ngModel)]="immobilien.address"
+      required
+      placeholder="Adresse"
+      class="border p-2 w-full"
+    />
+    <div *ngIf="immobilienForm.submitted && !immobilien.address" class="text-red-600 text-sm mt-1">
+      Adresse ist erforderlich.
+    </div>
+  </div>
+
+  <!-- Button -->
+  <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+    Speichern
+  </button>
+</form>
