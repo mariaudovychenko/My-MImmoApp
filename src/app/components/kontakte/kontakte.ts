@@ -1,11 +1,12 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-kontakte',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './kontakte.html',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
@@ -17,12 +18,15 @@ export class Kontakte {
     this.loadKontakte();
   }
 
-  addKontakt() {
-    if (!this.kontakt.name.trim() || !this.kontakt.address.trim()) return;
-    this.kontaktListe.push({ ...this.kontakt });
-    localStorage.setItem('kontakte', JSON.stringify(this.kontaktListe));
-    this.kontakt = { name: '', address: '' };
-  }
+addKontakt() {
+  if (!this.kontakt.name.trim() || !this.kontakt.address.trim()) return;
+
+  const kontaktMitId = { ...this.kontakt, id: crypto.randomUUID() };
+  this.kontaktListe.push(kontaktMitId);
+  localStorage.setItem('kontakte', JSON.stringify(this.kontaktListe));
+  this.kontakt = { name: '', address: '' };
+}
+
 
   deleteKontakt(k: any) {
     this.kontaktListe = this.kontaktListe.filter(x => x !== k);
@@ -41,3 +45,5 @@ export class Kontakte {
     }
   }
 }
+
+

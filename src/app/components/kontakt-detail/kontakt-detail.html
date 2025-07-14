@@ -1,0 +1,19 @@
+<div class="max-w-xl mx-auto mt-10 p-4 space-y-6">
+  <h2 class="text-xl font-bold">Kontakt-Details</h2>
+
+  <div *ngIf="kontakt; else notFound">
+    <p><strong>Name:</strong> {{ kontakt.name }}</p>
+    <p><strong>Adresse:</strong> {{ kontakt.address }}</p>
+
+    <h3 class="text-lg font-semibold mt-6">Zugehörige Beziehungen:</h3>
+    <ul class="list-disc ml-6">
+      <li *ngFor="let b of beziehungen">
+        {{ b.typ }} – {{ b.bezug }}
+      </li>
+    </ul>
+  </div>
+
+  <ng-template #notFound>
+    <p class="text-red-600">Kontakt nicht gefunden.</p>
+  </ng-template>
+</div>

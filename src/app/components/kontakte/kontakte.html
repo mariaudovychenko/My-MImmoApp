@@ -24,10 +24,32 @@
     Kontakt speichern
   </button>
 
-  <ul class="mt-6">
-    <li *ngFor="let k of kontaktListe" class="flex justify-between items-center border-b py-2">
-      <span>{{ k.name }} - {{ k.address }}</span>
-      <button (click)="deleteKontakt(k)" class="text-red-600">Löschen</button>
-    </li>
-  </ul>
+  <ul class="mt-6 max-w-xl mx-auto p-4">
+  <li
+    *ngFor="let k of kontaktListe"
+    class="flex justify-between items-center border-b py-2"
+  >
+    <div>
+      <strong>{{ k.name }}</strong><br />
+      {{ k.address }}
+    </div>
+
+    <div class="flex gap-2">
+      <!-- 🔗 Link zur Detailseite -->
+      <a
+        [routerLink]="['/kontakt-detail', k.id]"
+        class="text-blue-600 hover:underline text-sm"
+      >
+        Details
+      </a>
+
+      <!-- 🗑️ Löschen -->
+      <button (click)="deleteKontakt(k)" class="text-red-600 text-sm">
+        Löschen
+      </button>
+    </div>
+  </li>
+</ul>
+
 </form>
+
