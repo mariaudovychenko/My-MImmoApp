@@ -1,1 +1,33 @@
-<p>kontakte works!</p>
+<form (ngSubmit)="addKontakt()" #kontaktForm="ngForm" class="max-w-xl mx-auto mt-16 p-4 space-y-8">
+  <div>
+    <input
+      [(ngModel)]="kontakt.name"
+      name="name"
+      required
+      placeholder="Name"
+      class="border p-2 w-full rounded-md"
+    />
+  </div>
+
+  <div>
+    <input
+      id="autocomplete-kontakt"
+      name="address"
+      [(ngModel)]="kontakt.address"
+      required
+      placeholder="Adresse"
+      class="border p-2 w-full rounded-md"
+    />
+  </div>
+
+  <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md">
+    Kontakt speichern
+  </button>
+
+  <ul class="mt-6">
+    <li *ngFor="let k of kontaktListe" class="flex justify-between items-center border-b py-2">
+      <span>{{ k.name }} - {{ k.address }}</span>
+      <button (click)="deleteKontakt(k)" class="text-red-600">Löschen</button>
+    </li>
+  </ul>
+</form>
