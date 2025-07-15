@@ -20,7 +20,7 @@ export class Login {
   onLogin() {
     const success = this.auth.login(this.email, this.password);
     if (success) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/immobilien']);
     } else {
         alert('Email or password is incorrect.');
     }
