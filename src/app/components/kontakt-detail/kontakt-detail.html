@@ -1,13 +1,22 @@
 <div class="max-w-xl mx-auto mt-10 p-4 space-y-6">
-  <h2 class="text-xl font-bold">Kontakt-Details</h2>
+  <button
+    type="button"
+    (click)="goBack()"
+    class="mb-4 px-3 py-1 rounded bg-gray-200 text-gray-700 hover:bg-gray-300 transition"
+  >
+    ← Zurück
+  </button>
+
+  <h2 class="text-xl font-bold mb-0">Überblick über die erfassten Kontaktdaten</h2>
+  <p class="text-gray-600 text-sm  -mt-2">Hier findest du alle verfügbaren Angaben zur gewählten Person.</p>
 
   <div *ngIf="kontakt; else notFound">
-    <p><strong>Name:</strong> {{ kontakt.name }}</p>
+    <p class="mb-2"><strong>Name:</strong> {{ kontakt.name }}</p>
     <p><strong>Adresse:</strong> {{ kontakt.address }}</p>
 
-    <h3 class="text-lg font-semibold mt-6">Zugehörige Beziehungen:</h3>
-    <ul class="list-disc ml-6">
-      <li *ngFor="let b of beziehungen">
+    <p class="font-bold mt-6 mb-2">Zugehörige Beziehungen:</p>
+    <ul class="list-disc ml-6 ">
+      <li class="mb-2" *ngFor="let b of beziehungen">
         {{ b.typ }} – {{ b.bezug }}
       </li>
     </ul>

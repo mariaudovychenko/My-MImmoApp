@@ -1,4 +1,4 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -10,15 +10,18 @@ declare const google: any;
   imports: [CommonModule, FormsModule],
   templateUrl: './immobilien.html',
 })
-export class Immobilien implements AfterViewInit {
+export class Immobilien implements OnInit, AfterViewInit {
   immobilien = { description: '', address: '' };
   immobilienListe: any[] = [];
   isEdit = false;
   editId: string | null = null;
 
+    ngOnInit() {
+    this.loadImmobilien(); // <-- HIER laden!
+  }
+
   ngAfterViewInit() {
     this.initAutocomplete();
-    this.loadImmobilien();
   }
 
   // Immer mit ID arbeiten – auch für "alte" Immobilien nachladen!

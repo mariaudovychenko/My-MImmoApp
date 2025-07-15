@@ -21,4 +21,8 @@ export class KontaktDetail {
     const alleBeziehungen = JSON.parse(localStorage.getItem('beziehungen') || '[]');
     this.beziehungen = alleBeziehungen.filter((b: any) => b.kontaktId === this.kontaktId);
   }
+
+   goBack() {
+    history.back();
+  }
 }

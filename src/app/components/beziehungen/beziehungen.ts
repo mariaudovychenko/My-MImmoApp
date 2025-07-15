@@ -23,7 +23,9 @@ export class Beziehungen {
   beziehungenListe: any[] = [];
   fehlerMeldung: string = '';
 
-  // Für Bearbeiten-Modus
+  fehlerJahrStart: string = '';
+  fehlerJahrEnde: string = '';
+
   isEdit = false;
   editId: string | null = null;
 
@@ -39,6 +41,8 @@ export class Beziehungen {
 
   addOrUpdateBeziehung(form: any): void {
     this.fehlerMeldung = '';
+    this.fehlerJahrStart = '';
+    this.fehlerJahrEnde = '';
 
     if (!this.beziehung.immobilienId || !this.beziehung.kontaktId || !this.beziehung.typ || !this.beziehung.start || !this.beziehung.ende) {
       this.fehlerMeldung = 'Bitte alle Pflichtfelder ausfüllen.';
@@ -49,25 +53,47 @@ export class Beziehungen {
       return;
     }
 
-    // Kollision prüfen: nur für Mieter, gleiche Immobilie, Zeitraum überschneidet sich
-    if (this.beziehung.typ === 'Mieter') {
-      const neuerStart = new Date(this.beziehung.start);
-      const neuesEnde = new Date(this.beziehung.ende);
+    // Jahreszahl prüfen
+     const startJahr = this.beziehung.start.split('-')[0];
+  const endJahr = this.beziehung.ende.split('-')[0];
+  const jahrRegel = /^(1|2)\d{3}$/;
 
+  if (!jahrRegel.test(startJahr)) {
+    this.fehlerJahrStart = 'Das Startdatum muss zwischen 1800 und 2999 liegen.';
+  }
+  if (!jahrRegel.test(endJahr)) {
+    this.fehlerJahrEnde = 'Das Enddatum muss zwischen 1800 und 2999 liegen.';
+  }
+  if (parseInt(endJahr, 10) > 2999) {
+    this.fehlerJahrEnde = 'Das Endjahr darf maximal 2999 sein.';
+  }
+
+  if (this.fehlerJahrStart || this.fehlerJahrEnde) return;
+
+  const neuerStart = new Date(this.beziehung.start);
+  const neuesEnde = new Date(this.beziehung.ende);
+
+
+    // Kollision prüfen für Mieter und Eigentümer
+    if (this.beziehung.typ === 'Mieter' || this.beziehung.typ === 'Eigentümer') {
       const konflikt = this.beziehungenListe.some(b =>
-        b.id !== this.editId && // Beim Bearbeiten: aktuelles ignorieren!
+        b.id !== this.editId &&
         b.kontaktId === this.beziehung.kontaktId &&
         b.immobilienId === this.beziehung.immobilienId &&
-        b.typ === 'Mieter' &&
+        b.typ === this.beziehung.typ &&
         (neuerStart <= new Date(b.ende)) && (neuesEnde >= new Date(b.start))
       );
       if (konflikt) {
-        this.fehlerMeldung = 'Der Kontakt ist bereits Mieter dieser Immobilie im gewählten Zeitraum.';
+        this.fehlerMeldung =
+          this.beziehung.typ === 'Mieter'
+            ? 'Der Kontakt ist bereits Mieter dieser Immobilie im gewählten Zeitraum.'
+            : 'Der Kontakt ist bereits Eigentümer dieser Immobilie im gewählten Zeitraum.';
         return;
       }
     }
 
     if (this.isEdit && this.editId) {
+
       // Überschreiben
       this.beziehungenListe = this.beziehungenListe.map(b =>
         b.id === this.editId ? { ...this.beziehung, id: this.editId } : b
@@ -75,6 +101,7 @@ export class Beziehungen {
       this.isEdit = false;
       this.editId = null;
     } else {
+
       // Anlegen
       const neueBeziehung = { ...this.beziehung, id: crypto.randomUUID() };
       this.beziehungenListe.push(neueBeziehung);
@@ -84,7 +111,6 @@ export class Beziehungen {
     if (form) form.resetForm();
   }
 
-  // Für das Bearbeiten-Formular
   editBeziehung(b: any) {
     this.isEdit = true;
     this.editId = b.id;
@@ -108,7 +134,6 @@ export class Beziehungen {
   deleteBeziehung(b: any): void {
     this.beziehungenListe = this.beziehungenListe.filter(x => x.id !== b.id);
     localStorage.setItem('beziehungen', JSON.stringify(this.beziehungenListe));
-    // Falls gerade bearbeitet wird und der Datensatz wird gelöscht → Edit abbrechen!
     if (this.editId === b.id) {
       this.cancelEdit();
     }

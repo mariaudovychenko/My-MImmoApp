@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   private mockUser = {
     userId: 1,
-    userName: 'maria001@example.com',
+    userName: 'maria@mimmo.com',
     fullName: 'Maria Tester',
     token: 'mock-token-abc123'
   };
