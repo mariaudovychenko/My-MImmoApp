@@ -1,6 +1,3 @@
-// Komponente zur Verwaltung von Beziehungen zwischen 
-// Immobilien, Kontakten und deren Rollen (Eigentümer, Mieter, Dienstleister).
-
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

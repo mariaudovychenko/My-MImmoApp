@@ -1,55 +1,57 @@
-<form (ngSubmit)="addKontakt()" #kontaktForm="ngForm" class="max-w-xl mx-auto mt-16 p-4 space-y-8">
-  <div>
-    <input
-      [(ngModel)]="kontakt.name"
-      name="name"
-      required
-      placeholder="Name"
-      class="border p-2 w-full rounded-md"
-    />
-  </div>
-
-  <div>
-    <input
-      id="autocomplete-kontakt"
-      name="address"
-      [(ngModel)]="kontakt.address"
-      required
-      placeholder="Adresse"
-      class="border p-2 w-full rounded-md"
-    />
-  </div>
-
-  <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md">
-    Kontakt speichern
-  </button>
-
-  <ul class="mt-6 max-w-xl mx-auto p-4">
-  <li
-    *ngFor="let k of kontaktListe"
-    class="flex justify-between items-center border-b py-2"
-  >
+<div class="max-w-xl mx-auto mt-4 p-3 space-y-2">
+  <h2 class="text-2xl font-bold mb-4">Neuen Kontakt erfassen</h2>
+  <form (ngSubmit)="addOrUpdateKontakt(kontaktForm)" #kontaktForm="ngForm" class="space-y-3">
     <div>
-      <strong>{{ k.name }}</strong><br />
-      {{ k.address }}
+      <input
+        [(ngModel)]="kontakt.name"
+        name="name"
+        required
+        placeholder="Name"
+        class="border p-2 w-full rounded-md"
+      />
+      <div *ngIf="kontaktForm.submitted && !kontakt.name" class="text-red-600 text-xs mt-1">
+        Name ist erforderlich.
+      </div>
     </div>
-
-    <div class="flex gap-2">
-      <!-- 🔗 Link zur Detailseite -->
-      <a
-        [routerLink]="['/kontakt-detail', k.id]"
-        class="text-blue-600 hover:underline text-sm"
-      >
-        Details
-      </a>
-
-      <!-- 🗑️ Löschen -->
-      <button (click)="deleteKontakt(k)" class="text-red-600 text-sm">
-        Löschen
-      </button>
+    <div>
+      <input
+        id="autocomplete-kontakt"
+        name="address"
+        [(ngModel)]="kontakt.address"
+        required
+        placeholder="Adresse"
+        autocomplete="off"
+        class="border p-2 w-full rounded-md"
+      />
+      <div *ngIf="kontaktForm.submitted && !kontakt.address" class="text-red-600 text-xs mt-1">
+        Adresse ist erforderlich.
+      </div>
     </div>
-  </li>
-</ul>
-
-</form>
-
+    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">
+      {{ isEdit ? 'Änderungen speichern' : 'Speichern' }}
+    </button>
+    <button *ngIf="isEdit" type="button" (click)="cancelEdit(kontaktForm)" class="ml-2 px-4 py-2 rounded border">
+      Abbrechen
+    </button>
+  </form>
+  <!-- Kontakte-Liste -->
+  <ul class="mt-4 space-y-2">
+    <li *ngFor="let k of kontaktListe" class="border p-3 pr-2 rounded-md flex justify-between items-center">
+      <div>
+        <strong>{{ k.name }}</strong><br />
+        {{ k.address }}
+      </div>
+      <div class="flex gap-2">
+        <button (click)="editKontakt(k)" class="text-blue-500 hover:underline text-sm">
+          Bearbeiten
+        </button>
+        <a [routerLink]="['/kontakt-detail', k.id]" class="text-blue-600 hover:underline text-sm">
+          Details
+        </a>
+        <button (click)="deleteKontakt(k)" class="text-red-600 text-sm">
+          Löschen
+        </button>
+      </div>
+    </li>
+  </ul>
+</div>
