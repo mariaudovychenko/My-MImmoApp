@@ -1,6 +1,5 @@
-Project Name: My MImmoApp
+Project Name: My MImmoApp https://my-mimmoapp.netlify.app
 
-https://my-mimmoapp.netlify.app
 userName: 'maria@mimmo.com'
 password: 12341234,
 
